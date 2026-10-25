@@ -1,0 +1,26 @@
+info:
+  name: delete-with-no-token-and-a-bad-id
+  type: http
+  seq: 5
+
+http:
+  method: DELETE
+  url: "{{baseUrl}}/emojis/abc"
+  body:
+    type: json
+    data: |-
+      {
+      }
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "401"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

@@ -1,0 +1,59 @@
+info:
+  name: created-an-emoji
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{baseUrl}}/emojis"
+  body:
+    type: json
+    data: |-
+      {
+        "emoji": "🪐",
+        "name": "ringed planet",
+        "category": "nature"
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        res.getHeader("header-name")
+        bru.setVar("lifecycleId", res.getBody().id)
+    - type: tests
+      code: |-
+        test("the Location header points at the new emoji", function () {
+          const { id } = res.getBody()
+
+          expect(res.getHeader("location")).to.equal(`/emojis/${id}`)
+        })
+
+        test('createdAt is equal to updatedAt', () => {
+           const { createdAt, updatedAt } = res.getBody()
+
+           expect(createdAt).to.eq(updatedAt)
+        })
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "201"
+    - expression: res.body.id
+      operator: isNumber
+    - expression: res.body.emoji
+      operator: eq
+      value: 🪐
+    - expression: res.body.name
+      operator: eq
+      value: ringed planet
+    - expression: res.body.category
+      operator: eq
+      value: nature
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

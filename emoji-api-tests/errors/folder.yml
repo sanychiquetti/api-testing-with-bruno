@@ -1,0 +1,16 @@
+info:
+  name: errors
+  type: folder
+  seq: 5
+
+request:
+  auth: inherit
+  scripts:
+    - type: after-response
+      code: |-
+        test("answers with an error message and no emoji", function () {
+          const body = res.getBody()
+
+          expect(body.error).to.be.a("string").that.is.not.empty
+          expect(body.id).to.be.undefined
+        })

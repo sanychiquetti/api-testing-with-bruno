@@ -1,0 +1,8 @@
+name: emojis
+variables:
+  - name: baseUrl
+    value: http://localhost:3001
+    description: ""
+  - name: defaultLimit
+    value: "10"
+    description: ""

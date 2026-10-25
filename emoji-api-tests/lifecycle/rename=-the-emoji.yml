@@ -1,0 +1,44 @@
+info:
+  name: rename=-the-emoji
+  type: http
+  seq: 4
+
+http:
+  method: PATCH
+  url: "{{baseUrl}}/emojis/{{lifecycleId}}"
+  body:
+    type: json
+    data: |-
+      {
+        "emoji": "🪐",
+        "name": "saturn",
+        "category": "nature"
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+    - expression: res.body.id
+      operator: isNumber
+    - expression: res.body.emoji
+      operator: eq
+      value: " 🪐"
+    - expression: res.body.name
+      operator: eq
+      value: saturn
+    - expression: res.body.category
+      operator: eq
+      value: nature
+    - expression: res.body.id
+      operator: eq
+      value: "{{lifecycleId}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

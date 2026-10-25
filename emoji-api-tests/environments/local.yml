@@ -1,0 +1,8 @@
+name: local
+variables:
+  - name: baseUrl
+    value: http://localhost:3001
+  - name: username
+    value: tester
+  - name: password
+    value: "{{process.env.API_PASSWORD}}"

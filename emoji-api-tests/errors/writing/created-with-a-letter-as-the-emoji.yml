@@ -1,0 +1,29 @@
+info:
+  name: created-with-a-letter-as-the-emoji
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{baseUrl}}/emojis"
+  body:
+    type: json
+    data: |-
+      {
+        "emoji": "🪐",
+        "name": "ringed planet",
+        "category": "nature"
+      }
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "401"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
